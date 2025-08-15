@@ -1,0 +1,9 @@
+[project]
+name = "pythonFapiao"
+version = "0.1.0"
+description = "发票合并工具"
+readme = "README.md"
+requires-python = ">=3"
+dependencies = [
+    "pypdf>=1.13",
+]
