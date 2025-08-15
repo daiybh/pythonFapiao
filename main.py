@@ -1,26 +1,12 @@
 from pypdf import PdfReader, PdfWriter,PaperSize, Transformation
 
-
-def merge_pdfs(paths, output):
-    pdf_writer = PdfWriter()
-
-    for path in paths:
-        pdf_reader = PdfReader(path)
-        
-        newPage = pdf_writer.add_blank_page(PaperSize.A4.width, PaperSize.A4.height)
-
-        pdf_writer.add_page(pdf_reader.get_page(0))
-
-    with open(output, 'wb') as out:
-        pdf_writer.write(out)
-
 class MergedPdf:
     def __init__(self):
        self.pdf_writer = PdfWriter() 
     def merge_twoPdfs_to_one(self,path1, path2,ty=450):
         pdf_reader = PdfReader(path1)
         srcA = pdf_reader.get_page(0)
-        
+        srcB=None
         if path2!=None:
             pdf_reader = PdfReader(path2)
             srcB = pdf_reader.get_page(0)
@@ -62,7 +48,9 @@ a = findPdf('.//11')
 meger = MergedPdf()
 print(len(a))
 for i in range(0,len(a),2):
+    b=None
     if i+1 < len(a):
         b = a[i+1]
     meger.merge_twoPdfs_to_one(a[i],b)
+
 meger.save('merged.pdf')
