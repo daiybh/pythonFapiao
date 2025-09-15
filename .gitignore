@@ -1,3 +1,6 @@
 11/
 .DS_Store
 *.pdf
+build/
+dist/
+main.spec
