@@ -1,6 +1,8 @@
 from pypdf import PdfReader, PdfWriter,PaperSize, Transformation
 
 from dotenv import load_dotenv
+
+from qqOcr import TencentOCR
 load_dotenv()
 
 class MergedPdf:
@@ -55,13 +57,19 @@ def DoMerge():
     a = findPdf(os.environ.get('LOCAL_SEARCH_FOLDER'))
     meger = MergedPdf()
     print(len(a))
+    ocr = TencentOCR()
+    totalMoney = 0
     for i in range(0,len(a),2):
         b=None
+        aocr = ocr.recognize_general_invoice(a[i])
+        totalMoney += float(aocr['合计金额'])
         if i+1 < len(a):
             b = a[i+1]
+            bocr = ocr.recognize_general_invoice(b)
+            totalMoney += float(bocr['合计金额'])
         meger.merge_twoPdfs_to_one(a[i],b)
-
-    meger.save('merged.pdf')
+    print(totalMoney)
+    meger.save(f'merged-{totalMoney}.pdf')
 
 
 DoMerge()
